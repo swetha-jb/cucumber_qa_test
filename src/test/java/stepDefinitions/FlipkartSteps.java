@@ -22,6 +22,12 @@ public class FlipkartSteps {
    	 options.addArguments("--disable-gpu");
    	 options.addArguments("--remote-debugging-port=9222");
 
+	 try {
+        	Path tempProfileDir = Files.createTempDirectory("chrome-profile");
+        	options.addArguments("--user-data-dir=" + tempProfileDir.toAbsolutePath().toString());
+    } 	   catch (IOException e) {
+              throw new RuntimeException("Failed to create temporary user data directory", e);
+    }
    	 driver = new ChromeDriver(options);
    	 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
    	 driver.get("https://www.flipkart.com/");
